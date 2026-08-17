@@ -21,23 +21,58 @@ body{margin:0;background:var(--char);color:var(--cream);font-family:var(--body);
 a{color:var(--sauce)}
 ::selection{background:var(--sauce);color:#120A0B}
 
-/* ---------- GATE ---------- */
-#gate{position:fixed;inset:0;z-index:9999;background:radial-gradient(120% 90% at 50% 10%,#3A0E10 0%,#120A0B 60%);display:flex;align-items:center;justify-content:center;padding:24px}
-#gate.hide{opacity:0;pointer-events:none;transform:scale(1.06);transition:opacity .7s ease,transform .9s cubic-bezier(.2,.8,.2,1)}
-.gatebox{width:min(460px,100%);text-align:center;position:relative;z-index:2}
-.gatemark{font-family:var(--disp);font-size:clamp(60px,16vw,110px);line-height:.82;letter-spacing:-.02em;color:var(--cream);text-transform:uppercase}
-.gatemark em{font-style:normal;color:var(--sauce);display:inline-block;animation:flick 3.4s infinite}
-@keyframes flick{0%,100%{opacity:1}47%{opacity:1}48%{opacity:.35}50%{opacity:1}72%{opacity:.6}74%{opacity:1}}
-.gatesub{font-family:var(--mono);font-size:11px;letter-spacing:.32em;text-transform:uppercase;color:var(--dim);margin:18px 0 30px}
-.pwrap{display:flex;gap:8px}
-#pw{flex:1;background:rgba(255,255,255,.04);border:1px solid var(--line);color:var(--cream);font-family:var(--mono);font-size:16px;letter-spacing:.4em;padding:16px;text-align:center;text-transform:uppercase;border-radius:2px;outline:none}
-#pw:focus{border-color:var(--sauce);box-shadow:0 0 0 3px rgba(255,92,43,.18)}
-#go{background:var(--sauce);color:#120A0B;border:0;font-family:var(--disp);font-size:18px;letter-spacing:.06em;padding:0 26px;cursor:pointer;text-transform:uppercase;border-radius:2px}
-#go:hover{background:var(--cream)}
-#err{font-family:var(--mono);font-size:11px;color:var(--buffalo);margin-top:14px;min-height:16px;letter-spacing:.14em;text-transform:uppercase}
+/* ---------- GATE (OWNER'S POV — LIVE FIRE) ---------- */
+#gate{position:fixed;inset:0;z-index:9999;background:#070303;display:flex;align-items:flex-start;justify-content:center;padding:0;overflow:hidden}
+#gate.hide{opacity:0;pointer-events:none;transform:scale(1.05);transition:opacity .8s ease,transform 1s cubic-bezier(.2,.8,.2,1)}
+#gatecanvas{position:absolute;inset:0;z-index:1;width:100%;height:100%;display:block}
+/* dark kitchen framing so it reads as standing behind your own pass */
+#gate .vig{position:absolute;inset:0;z-index:2;pointer-events:none;
+  background:radial-gradient(130% 96% at 50% 100%,rgba(0,0,0,0) 0%,rgba(7,3,3,.10) 55%,rgba(7,3,3,.55) 84%,rgba(5,2,2,.86) 100%)}
+/* darken only the upper half, where the copy sits — never the burner line */
+#gate .pass{position:absolute;left:0;right:0;top:0;height:56vh;z-index:3;pointer-events:none;
+  background:linear-gradient(180deg,rgba(5,2,2,.80) 0%,rgba(5,2,2,.55) 45%,rgba(5,2,2,0) 100%)}
+.gatebox{position:relative;z-index:4;width:min(500px,100%);text-align:center;padding:0 24px;
+  margin-top:min(11vh,90px)}
+.ownerline{font-family:var(--mono);font-size:10px;letter-spacing:.42em;text-transform:uppercase;color:var(--sauce);
+  margin-bottom:20px;opacity:0;animation:fadein .9s .15s forwards}
+.ownerline b{color:var(--cream);font-weight:400}
+.gatemark{font-family:var(--disp);font-size:clamp(62px,16.5vw,118px);line-height:.8;letter-spacing:-.025em;
+  color:var(--cream);text-transform:uppercase;text-shadow:0 0 34px rgba(255,92,43,.5),0 0 90px rgba(214,32,60,.3);
+  opacity:0;animation:fadein 1s .3s forwards}
+.gatemark em{font-style:normal;color:var(--sauce);display:inline-block;animation:flick 3.4s .9s infinite}
+@keyframes flick{0%,100%{opacity:1}47%{opacity:1}48%{opacity:.32}50%{opacity:1}72%{opacity:.55}74%{opacity:1}}
+@keyframes fadein{to{opacity:1}}
+.gatesub{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#C9A99C;
+  margin:20px 0 6px;opacity:0;animation:fadein .9s .5s forwards}
+.gatesub .hot{color:var(--sauce)}
+.gatenote{font-family:var(--body);font-size:13px;line-height:1.6;color:#9C8078;max-width:340px;margin:0 auto 30px;
+  opacity:0;animation:fadein .9s .62s forwards}
+.pwrap{display:flex;gap:8px;opacity:0;animation:fadein .9s .74s forwards}
+#pw{flex:1;background:rgba(255,255,255,.05);border:1px solid #4A2A26;color:var(--cream);font-family:var(--mono);
+  font-size:16px;letter-spacing:.4em;padding:16px;text-align:center;text-transform:uppercase;border-radius:2px;
+  outline:none;backdrop-filter:blur(3px);transition:border-color .2s,box-shadow .2s}
+#pw::placeholder{color:#6E4A44;letter-spacing:.3em}
+#pw:focus{border-color:var(--sauce);box-shadow:0 0 0 3px rgba(255,92,43,.2),0 0 26px rgba(255,92,43,.22)}
+#go{background:var(--sauce);color:#120A0B;border:0;font-family:var(--disp);font-size:18px;letter-spacing:.06em;
+  padding:0 26px;cursor:pointer;text-transform:uppercase;border-radius:2px;transition:background .2s,box-shadow .2s;
+  box-shadow:0 0 22px rgba(255,92,43,.34)}
+#go:hover{background:var(--cream);box-shadow:0 0 30px rgba(242,229,208,.4)}
+#err{font-family:var(--mono);font-size:11px;color:var(--buffalo);margin-top:14px;min-height:16px;
+  letter-spacing:.14em;text-transform:uppercase}
+.gatefoot{position:relative;z-index:5;margin-top:26px;text-align:center;font-family:var(--mono);
+  font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:#8A6259;opacity:0;
+  animation:fadein .9s 1s forwards}
 .shake{animation:sh .4s}
 @keyframes sh{25%{transform:translateX(-8px)}50%{transform:translateX(8px)}75%{transform:translateX(-4px)}}
-#gatecanvas{position:absolute;inset:0;z-index:1;opacity:.6;width:100%;height:100%;display:block}
+@media(max-width:560px){
+  .gatebox{margin-top:9vh;padding:0 20px}
+  .gatenote{font-size:12.5px}
+  .pwrap{flex-direction:column;gap:10px}
+  #pw{width:100%;font-size:15px;letter-spacing:.3em;padding:15px}
+  #go{width:100%;padding:15px 0;font-size:17px}
+  .ownerline{letter-spacing:.26em;font-size:9.5px}
+  .gatesub{letter-spacing:.14em;font-size:10.5px}
+}
 
 /* ---------- SHELL ---------- */
 #app{display:none}
@@ -126,14 +161,19 @@ footer{border-top:1px solid var(--line);padding:40px 22px 70px;text-align:center
 
 <div id="gate">
   <canvas id="gatecanvas"></canvas>
+  <div class="vig"></div>
+  <div class="pass"></div>
   <div class="gatebox">
+    <div class="ownerline">Owner access &middot; <b>Bandra West kitchen</b></div>
     <div class="gatemark">WING<em>'</em>D</div>
-    <div class="gatesub">Private playbook — enter password</div>
+    <div class="gatesub">The fryers are <span class="hot">lit</span> &middot; 500 ways to win</div>
+    <p class="gatenote">This is the owner's copy &mdash; every play, every number, every licence. Not for staff, not for the floor.</p>
     <div class="pwrap">
-      <input id="pw" type="password" placeholder="••••" autocomplete="off" spellcheck="false" maxlength="24" aria-label="Password"/>
+      <input id="pw" type="password" placeholder="Owner key" autocomplete="off" spellcheck="false" maxlength="24" aria-label="Password"/>
       <button id="go">Enter</button>
     </div>
     <div id="err"></div>
+    <div class="gatefoot">Private &middot; built for Krish</div>
   </div>
 </div>
 
@@ -217,7 +257,8 @@ const PASS = "CASH";
 const gate = document.getElementById('gate'), app = document.getElementById('app');
 function unlock(){
   gate.classList.add('hide');
-  setTimeout(()=>{gate.style.display='none';},900);
+  window.__gateDone = true;
+  setTimeout(()=>{gate.style.display='none'; if(window.__fire) window.__fire.stop();},1000);
   app.style.display='block';
   try{sessionStorage.setItem('wingd_ok','1');}catch(e){}
   boot();
@@ -234,7 +275,7 @@ function tryPass(){
 }
 document.getElementById('go').addEventListener('click', tryPass);
 document.getElementById('pw').addEventListener('keydown', e=>{ if(e.key==='Enter') tryPass(); });
-try{ if(sessionStorage.getItem('wingd_ok')==='1'){ gate.style.display='none'; app.style.display='block'; setTimeout(boot,30);} else { setTimeout(()=>document.getElementById('pw').focus(),400);} }catch(e){ setTimeout(()=>document.getElementById('pw').focus(),400); }
+try{ if(sessionStorage.getItem('wingd_ok')==='1'){ window.__gateDone=true; gate.style.display='none'; app.style.display='block'; setTimeout(boot,30);} else { setTimeout(()=>document.getElementById('pw').focus(),400);} }catch(e){ setTimeout(()=>document.getElementById('pw').focus(),400); }
 
 /* ---------------- RENDER ---------------- */
 let booted=false;
@@ -417,7 +458,150 @@ function shaderCanvas(canvas, speed){
   return renderer;
 }
 function sauceScene(){ shaderCanvas(document.getElementById('sauce'), 0.016); }
-(function(){ const c=document.getElementById('gatecanvas'); if(c){ c.style.width='100%'; c.style.height='100%'; shaderCanvas(c,0.010);} })();
+
+/* ---------------- LIVE FIRE (GATE) ---------------- */
+/* Owner's POV: standing at the pass, flames coming up off the burners in front of you. */
+const FIRE_FRAG = `
+precision highp float;
+uniform float t; uniform vec2 res; uniform vec2 mouse;
+
+float hash(vec2 p){ return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453); }
+float noise(vec2 p){
+  vec2 i=floor(p), f=fract(p); vec2 u=f*f*(3.0-2.0*f);
+  return mix(mix(hash(i),hash(i+vec2(1,0)),u.x),mix(hash(i+vec2(0,1)),hash(i+vec2(1,1)),u.x),u.y);
+}
+/* fbm drifting upward — the motion core of the flame */
+float fbm(vec2 p){
+  float v=0.0, a=0.5;
+  for(int i=0;i<6;i++){ v+=a*noise(p); p=p*2.07+vec2(0.0,-t*0.55); a*=0.5; }
+  return v;
+}
+/* one burner rooted on the bottom edge at xPos */
+float flame(vec2 uv,float xPos,float w,float hgt,float spd,float seed){
+  vec2 p=uv; p.x-=xPos;
+  /* sway grows with height so the base stays anchored to the burner */
+  p.x += sin(uv.y*4.4 + t*spd + seed)*0.040*uv.y
+       + sin(uv.y*10.0 - t*spd*1.9 + seed*2.1)*0.016*uv.y;
+  float n  = fbm(vec2(p.x*7.0+seed, uv.y*4.2 - t*1.5*spd));   /* body turbulence */
+  float n2 = noise(vec2(p.x*22.0+seed*3.0, uv.y*13.0 - t*3.2)); /* fine licking detail */
+  /* warp the silhouette so no two tongues are the same shape */
+  float edge = abs(p.x) * (1.0 + (n-0.5)*0.85*uv.y/hgt) - (n2-0.5)*0.016*uv.y/hgt;
+  float body = smoothstep(w*(1.0-uv.y/hgt*0.92), 0.0, edge);
+  float tip  = smoothstep(hgt, hgt*0.06, uv.y);
+  float f = body*tip;
+  f *= 0.44 + n*0.78 + n2*0.16;
+  f -= uv.y*0.62;                    /* strong taper so tongues thin out and die */
+  return max(f,0.0);
+}
+void main(){
+  vec2 uv = gl_FragCoord.xy/res.xy;
+  float ar = res.x/res.y;
+  vec2 m = mouse*0.10;
+
+  float f = 0.0;
+  f += flame(uv, 0.07+m.x*0.40, 0.043, 0.31, 1.12, 0.0);
+  f += flame(uv, 0.19+m.x*0.34, 0.058, 0.46, 0.88, 1.7);
+  f += flame(uv, 0.33+m.x*0.26, 0.034, 0.24, 1.52, 3.3);
+  f += flame(uv, 0.44+m.x*0.22, 0.066, 0.53, 0.80, 5.1);
+  f += flame(uv, 0.57+m.x*0.28, 0.039, 0.29, 1.34, 6.8);
+  f += flame(uv, 0.71+m.x*0.32, 0.061, 0.44, 0.96, 8.4);
+  f += flame(uv, 0.84+m.x*0.38, 0.036, 0.27, 1.44, 10.2);
+  f += flame(uv, 0.95+m.x*0.30, 0.050, 0.38, 1.05, 12.1);
+
+  /* shallow burner bed so the flames read as one continuous fire line */
+  float bed = smoothstep(0.16,0.0,uv.y)*(0.42+fbm(vec2(uv.x*9.0,uv.y*6.0-t*1.5))*0.55);
+  f += bed*0.62;
+
+  /* heat grade: ember red -> sauce -> gold, white only at the very hottest cores */
+  vec3 col = vec3(0.0);
+  col = mix(col, vec3(0.30,0.014,0.030), smoothstep(0.03,0.16,f));
+  col = mix(col, vec3(0.88,0.130,0.050), smoothstep(0.13,0.34,f));
+  col = mix(col, vec3(1.00,0.400,0.110), smoothstep(0.30,0.56,f));
+  col = mix(col, vec3(1.00,0.720,0.320), smoothstep(0.54,0.82,f));
+  col = mix(col, vec3(1.00,0.930,0.760), smoothstep(0.88,1.16,f));
+
+  /* embers lifting off the fire — small, sharp, burning out as they climb */
+  for(int i=0;i<12;i++){
+    float fi=float(i);
+    float sp = 0.10+hash(vec2(fi,3.0))*0.16;
+    float ex = hash(vec2(fi,1.0));
+    float ey = fract(hash(vec2(fi,2.0)) + t*sp);
+    ex += sin(ey*7.0 + fi*2.2 + t*0.6)*0.035;
+    float d  = length((uv-vec2(ex,ey))*vec2(ar,1.0));
+    float life = smoothstep(0.92,0.05,ey);
+    col += vec3(1.0,0.46,0.16) * (0.0000085/(d*d+0.0000012)) * life * 0.85;
+  }
+
+  /* warm bounce onto the room, plus a live flicker */
+  col += vec3(0.34,0.075,0.028) * smoothstep(0.62,0.0,uv.y) * 0.55;
+  col *= 0.955 + 0.045*sin(t*2.7 + uv.x*3.4);
+
+  gl_FragColor = vec4(col,1.0);
+}`;
+
+/* Raw WebGL — no CDN dependency, so the fire renders even if three.js fails to load. */
+function fireCanvas(canvas){
+  if(!canvas) return null;
+  const gl = canvas.getContext('webgl',{antialias:false,alpha:false})
+          || canvas.getContext('experimental-webgl',{antialias:false,alpha:false});
+  if(!gl){ canvas.style.background='linear-gradient(0deg,#FF5C2B 0%,#B3200E 18%,#4A0A08 45%,#120A0B 100%)'; return null; }
+
+  const VS = 'attribute vec2 p; void main(){ gl_Position = vec4(p,0.0,1.0); }';
+  function sh(type,src){
+    const s=gl.createShader(type); gl.shaderSource(s,src); gl.compileShader(s);
+    if(!gl.getShaderParameter(s,gl.COMPILE_STATUS)){ console.error('shader',gl.getShaderInfoLog(s)); return null; }
+    return s;
+  }
+  const vs=sh(gl.VERTEX_SHADER,VS), fs=sh(gl.FRAGMENT_SHADER,FIRE_FRAG);
+  if(!vs||!fs){ canvas.style.background='linear-gradient(0deg,#FF5C2B 0%,#B3200E 18%,#4A0A08 45%,#120A0B 100%)'; return null; }
+  const prog=gl.createProgram(); gl.attachShader(prog,vs); gl.attachShader(prog,fs); gl.linkProgram(prog);
+  if(!gl.getProgramParameter(prog,gl.LINK_STATUS)){ console.error('link',gl.getProgramInfoLog(prog)); return null; }
+  gl.useProgram(prog);
+
+  const buf=gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER,buf);
+  gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1, 3,-1, -1,3]),gl.STATIC_DRAW);
+  const loc=gl.getAttribLocation(prog,'p');
+  gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc,2,gl.FLOAT,false,0,0);
+
+  const uT=gl.getUniformLocation(prog,'t'),
+        uRes=gl.getUniformLocation(prog,'res'),
+        uMouse=gl.getUniformLocation(prog,'mouse');
+  let mx=0,my=0;
+
+  function size(){
+    const r=canvas.getBoundingClientRect();
+    const dpr=Math.min(window.devicePixelRatio||1,1.5);
+    const w=Math.max(2,Math.round((r.width||window.innerWidth)*dpr));
+    const hh=Math.max(2,Math.round((r.height||window.innerHeight)*dpr));
+    if(canvas.width!==w||canvas.height!==hh){ canvas.width=w; canvas.height=hh; }
+    gl.viewport(0,0,w,hh); gl.uniform2f(uRes,w,hh);
+  }
+  size(); window.addEventListener('resize',size);
+  window.addEventListener('mousemove',e=>{
+    mx=e.clientX/window.innerWidth-0.5; my=e.clientY/window.innerHeight-0.5;
+  },{passive:true});
+
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let time=0, last=performance.now(), raf=null, alive=true;
+  function frame(now){
+    if(!alive) return;
+    const dt=Math.min((now-last)/1000,0.05); last=now;
+    if(!reduce) time+=dt;                       /* time-based: same speed on 60Hz and 120Hz */
+    gl.uniform1f(uT,time); gl.uniform2f(uMouse,mx,my);
+    gl.drawArrays(gl.TRIANGLES,0,3);
+    if(reduce){ alive=false; return; }          /* one static frame for reduced-motion users */
+    raf=requestAnimationFrame(frame);
+  }
+  raf=requestAnimationFrame(frame);
+
+  document.addEventListener('visibilitychange',()=>{
+    if(document.hidden){ alive=false; if(raf) cancelAnimationFrame(raf); }
+    else if(!alive && !window.__gateDone){ alive=true; last=performance.now(); raf=requestAnimationFrame(frame); }
+  });
+  return { stop(){ alive=false; if(raf) cancelAnimationFrame(raf); } };
+}
+window.__fire = fireCanvas(document.getElementById('gatecanvas'));
 </script>
 </body>
 </html>
